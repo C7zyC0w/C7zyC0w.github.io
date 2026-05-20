@@ -30,6 +30,7 @@
             --bg:#000000;
             --text:#ffffff;
             --accent:#ff5280;
+            --button-accent:#ff5290;
             --card:#050505;
             --border:#ffffff;
         }
@@ -236,9 +237,9 @@
         .repo-button:hover{
             transform:scale(1.06);
             box-shadow:
-                0 0 10px var(--accent),
-                0 0 25px var(--accent),
-                0 0 50px var(--accent);
+                0 0 10px var(--button-accent),
+                0 0 25px var(--button-accent),
+                0 0 50px var(--button-accent);
         }
 
         .repo-button::before{
@@ -265,6 +266,13 @@
             margin-bottom:12px;
             text-shadow:
                 0 0 5px var(--accent);
+        }
+
+        .repo-para{
+            color:var(--text);
+            padding-top:50px;
+            text-shadow:
+                0 0 0px var(--accent);
         }
 
         /* ========================================================
@@ -436,11 +444,10 @@
                     <div class="Cowlang">
                         CowLang
                     </div>
-
-                    <p>
+                    <p class="repo-para">
                         CowLang is a language based of the latest version of Fortran, its goal is to simplify Fortran, increase its speed and add new modern features.
                     </p>
-                    <p> </p>                    
+                    
                     <p>
                         Languages: 🟠 HTML 40.8% | 🔷 Python 20.7% | 🟩 TeX 17.8% | 🟦 Fortran 9.2% | 🔵 C 8.5% | 🟧 OCaml 3.0%
                     </p>
@@ -454,8 +461,7 @@
                     <div class="Project-Liberty">
                         Project Liberty
                     </div>
-                    <p> </p>
-                    <p>
+                    <p class="repo-para">
                         Project Liberty** (also referred to as **LibertyOS**) is the codename for a custom Operating System (OS) that I am developing entirely from scratch as an independent project.
                     </p>
 
@@ -472,7 +478,7 @@
                     <div class="repo-title">
                         Repo Name
                     </div>
-                    <p>
+                    <p class="repo-para">
                         TODO: Add repository description here.
                     </p>
 
@@ -486,7 +492,7 @@
                         Repo Name
                     </div>
 
-                    <p>
+                    <p class="repo-para">
                         TODO: Add repository description here.
                     </p>
 
