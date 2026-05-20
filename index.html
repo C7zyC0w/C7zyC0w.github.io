@@ -1,0 +1,516 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>CrazyCow</title>
+
+    <!--
+    ========================================================
+    TODO SECTION
+    Replace these with your actual info
+    ========================================================
+    -->
+
+    <!-- TODO: Change description -->
+    <meta name="description" content="CrazyCow's GitHub Portfolio" />
+
+    <!-- TODO: Change favicon if wanted -->
+    <!-- <link rel="icon" href="favicon.png"> -->
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        :root{
+            --bg:#000000;
+            --text:#ffffff;
+            --accent:#ff5280;
+            --card:#050505;
+            --border:#ff5280;
+        }
+
+        html{
+            scroll-behavior:smooth;
+        }
+
+        body{
+            background:var(--bg);
+            color:var(--text);
+            font-family:Consolas, monospace;
+            overflow-x:hidden;
+            min-height:100vh;
+            position:relative;
+        }
+
+        /* ========================================================
+           TERMINAL SCANLINE SHADER EFFECT
+        ======================================================== */
+
+        body::before{
+            content:"";
+            position:fixed;
+            inset:0;
+            pointer-events:none;
+            background:
+                repeating-linear-gradient(
+                    to bottom,
+                    rgba(255,255,255,0.03),
+                    rgba(255,255,255,0.03) 1px,
+                    transparent 2px,
+                    transparent 4px
+                );
+            animation:scanlineMove 8s linear infinite;
+            z-index:9999;
+        }
+
+        @keyframes scanlineMove{
+            from{
+                transform:translateY(0);
+            }
+            to{
+                transform:translateY(10px);
+            }
+        }
+
+        /* ========================================================
+           BACKGROUND GRID
+        ======================================================== */
+
+        .grid-background{
+            position:fixed;
+            inset:0;
+            background-image:
+                linear-gradient(rgba(255,82,128,0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,82,128,0.08) 1px, transparent 1px);
+            background-size:40px 40px;
+            z-index:-2;
+        }
+
+        /* ========================================================
+           GLOW
+        ======================================================== */
+
+        .glow{
+            text-shadow:
+                0 0 5px var(--accent),
+                0 0 10px var(--accent),
+                0 0 20px var(--accent);
+        }
+
+        /* ========================================================
+           MAIN
+        ======================================================== */
+
+        .container{
+            width:min(1200px, 92%);
+            margin:auto;
+            padding:40px 0;
+        }
+
+        header{
+            text-align:center;
+            padding:80px 0 60px;
+        }
+
+        .name{
+            font-size:4rem;
+            color:var(--accent);
+            margin-bottom:20px;
+            text-shadow:
+                0 0 5px var(--accent),
+                0 0 15px var(--accent),
+                0 0 30px var(--accent);
+        }
+
+        .terminal-box{
+            background:#050505;
+            border:2px solid var(--border);
+            border-radius:14px;
+            padding:20px;
+            max-width:700px;
+            margin:auto;
+            box-shadow:
+                0 0 10px rgba(255,82,128,0.25);
+        }
+
+        .terminal-line{
+            margin:8px 0;
+            white-space:pre-wrap;
+        }
+
+        .pink{
+            color:var(--accent);
+        }
+
+        section{
+            margin-top:70px;
+        }
+
+        h2{
+            color:var(--accent);
+            margin-bottom:25px;
+            font-size:2rem;
+            text-shadow:
+                0 0 5px var(--accent),
+                0 0 15px var(--accent);
+        }
+
+        p{
+            line-height:1.7;
+        }
+
+        /* ========================================================
+           LINKS
+        ======================================================== */
+
+        a{
+            color:var(--accent);
+            text-decoration:underline;
+            cursor:pointer;
+            transition:0.25s ease;
+        }
+
+        a:hover{
+            text-shadow:
+                0 0 5px var(--accent),
+                0 0 15px var(--accent),
+                0 0 30px var(--accent);
+        }
+
+        /* ========================================================
+           INFO CARDS
+        ======================================================== */
+
+        .info-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+            gap:20px;
+        }
+
+        .info-card{
+            background:var(--card);
+            border:2px solid var(--border);
+            border-radius:14px;
+            padding:25px;
+            transition:0.25s ease;
+            box-shadow:
+                0 0 10px rgba(255,82,128,0.15);
+        }
+
+        .info-card:hover{
+            transform:scale(1.03);
+            box-shadow:
+                0 0 10px var(--accent),
+                0 0 20px var(--accent),
+                0 0 40px var(--accent);
+        }
+
+        /* ========================================================
+           REPO GRID
+        ======================================================== */
+
+        .repo-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+            gap:25px;
+        }
+
+        .repo-button{
+            display:block;
+            text-decoration:none;
+            color:white;
+            background:var(--card);
+            border:2px solid var(--border);
+            border-radius:18px;
+            padding:30px;
+            transition:0.25s ease;
+            position:relative;
+            overflow:hidden;
+        }
+
+        .repo-button:hover{
+            transform:scale(1.06);
+            box-shadow:
+                0 0 10px var(--accent),
+                0 0 25px var(--accent),
+                0 0 50px var(--accent);
+        }
+
+        .repo-button::before{
+            content:"";
+            position:absolute;
+            inset:0;
+            background:linear-gradient(
+                120deg,
+                transparent,
+                rgba(255,82,128,0.1),
+                transparent
+            );
+            transform:translateX(-100%);
+            transition:0.6s;
+        }
+
+        .repo-button:hover::before{
+            transform:translateX(100%);
+        }
+
+        .repo-title{
+            color:var(--accent);
+            font-size:1.4rem;
+            margin-bottom:12px;
+            text-shadow:
+                0 0 5px var(--accent);
+        }
+
+        /* ========================================================
+           FOOTER
+        ======================================================== */
+
+        footer{
+            margin-top:100px;
+            text-align:center;
+            padding:40px 0;
+            opacity:0.8;
+        }
+
+        /* ========================================================
+           RESPONSIVE
+        ======================================================== */
+
+        @media(max-width:700px){
+
+            .name{
+                font-size:2.8rem;
+            }
+
+            h2{
+                font-size:1.6rem;
+            }
+
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="grid-background"></div>
+
+    <div class="container">
+
+        <!-- ========================================================
+             HEADER
+        ======================================================== -->
+
+        <header>
+
+            <h1 class="name">CrazyCow</h1>
+
+            <div class="terminal-box">
+
+                <div class="terminal-line">
+                    <span class="pink">></span> booting profile...
+                </div>
+
+                <div class="terminal-line">
+                    <span class="pink">></span> establishing secure connection...
+                </div>
+
+                <div class="terminal-line">
+                    <span class="pink">></span> welcome to the terminal.
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- ========================================================
+             ABOUT
+        ======================================================== -->
+
+        <section>
+
+            <h2>About Me</h2>
+
+            <div class="info-grid">
+
+                <div class="info-card">
+
+                    <p>
+                        Computing HNC student interested in web development,
+                        operating systems, Linux, game development and terminal aesthetics.
+                    </p>
+
+                </div>
+
+                <div class="info-card">
+
+                    <p>
+                        Based in:
+                        <span class="pink glow">
+                            London, United Kingdom
+                        </span>
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ========================================================
+             CONTACT
+        ======================================================== -->
+
+        <section>
+
+            <h2>Contact</h2>
+
+            <div class="info-grid">
+
+                <div class="info-card">
+
+                    <!-- TODO: Replace email -->
+                    <p>
+                        Email:
+                        <a href="mailto:YOUR_EMAIL_HERE">
+                            YOUR_EMAIL_HERE
+                        </a>
+                    </p>
+
+                </div>
+
+                <div class="info-card">
+
+                    <!-- TODO: Replace Discord -->
+                    <p>
+                        Discord:
+                        <span class="pink">
+                            YOUR_DISCORD_HERE
+                        </span>
+                    </p>
+
+                </div>
+
+                <div class="info-card">
+
+                    <!-- TODO: Replace socials -->
+                    <p>
+                        GitHub:
+                        <a href="https://github.com/C7zyC0w" target="_blank">
+                            github.com/C7zyC0w
+                        </a>
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ========================================================
+             REPOSITORIES
+        ======================================================== -->
+
+        <section>
+
+            <h2>Repositories</h2>
+
+            <div class="repo-grid">
+
+                <!-- ========================================================
+                     TODO:
+                     DUPLICATE THESE REPO BUTTONS
+                     FOR MORE REPOSITORIES
+                ======================================================== -->
+
+                <a class="repo-button"
+                   href="https://github.com/C7zyC0w/YOUR_REPO_HERE"
+                   target="_blank">
+
+                    <div class="repo-title">
+                        Repo Name
+                    </div>
+
+                    <p>
+                        TODO: Add repository description here.
+                    </p>
+
+                </a>
+
+                <a class="repo-button"
+                   href="https://github.com/C7zyC0w/YOUR_REPO_HERE"
+                   target="_blank">
+
+                    <div class="repo-title">
+                        Repo Name
+                    </div>
+
+                    <p>
+                        TODO: Add repository description here.
+                    </p>
+
+                </a>
+
+                <a class="repo-button"
+                   href="https://github.com/C7zyC0w/YOUR_REPO_HERE"
+                   target="_blank">
+
+                    <div class="repo-title">
+                        Repo Name
+                    </div>
+
+                    <p>
+                        TODO: Add repository description here.
+                    </p>
+
+                </a>
+
+                <a class="repo-button"
+                   href="https://github.com/C7zyC0w/YOUR_REPO_HERE"
+                   target="_blank">
+
+                    <div class="repo-title">
+                        Repo Name
+                    </div>
+
+                    <p>
+                        TODO: Add repository description here.
+                    </p>
+
+                </a>
+
+            </div>
+
+        </section>
+
+        <!-- ========================================================
+             FOOTER
+        ======================================================== -->
+
+        <footer>
+
+            <div class="terminal-box">
+
+                <div class="terminal-line">
+                    <span class="pink">></span> session ended...
+                </div>
+
+                <div class="terminal-line">
+                    <span class="pink">></span> thanks for visiting.
+                </div>
+
+            </div>
+
+        </footer>
+
+    </div>
+
+</body>
+</html>
+```
